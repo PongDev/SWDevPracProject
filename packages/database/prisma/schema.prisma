@@ -10,8 +10,10 @@ generator client {
 model User {
   id       String    @id @default(auto()) @map("_id") @db.ObjectId
   email    String    @unique
+  password String
   name     String
   tel      String
+  roles    Role[]    @default([USER])
   bookings Booking[]
 }
 
@@ -40,4 +42,9 @@ type Address {
   city   String
   state  String
   zip    String
+}
+
+enum Role {
+  USER
+  ADMIN
 }
