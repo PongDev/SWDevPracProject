@@ -17,7 +17,7 @@ export class User {
   })
   @IsString()
   @IsNotEmpty()
-  id: String;
+  id: string;
 
   @ApiProperty({
     type: () => String,
@@ -28,7 +28,7 @@ export class User {
   @IsString()
   @IsEmail()
   @IsNotEmpty()
-  email: String;
+  email: string;
 
   @ApiProperty({
     type: () => String,
@@ -38,7 +38,7 @@ export class User {
   })
   @IsString()
   @IsNotEmpty()
-  password: String;
+  password: string;
 
   @ApiProperty({
     type: () => String,
@@ -48,7 +48,7 @@ export class User {
   })
   @IsString()
   @IsNotEmpty()
-  name: String;
+  name: string;
 
   @ApiProperty({
     type: () => String,
@@ -59,7 +59,7 @@ export class User {
   @IsString()
   @IsNotEmpty()
   @IsPhoneNumber("TH")
-  tel: String;
+  tel: string;
 
   @ApiProperty({
     required: true,

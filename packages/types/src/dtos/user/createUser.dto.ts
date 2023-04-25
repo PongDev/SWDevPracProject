@@ -1,4 +1,4 @@
-import { PickType } from "@nestjs/swagger";
+import { OmitType, PickType } from "@nestjs/swagger";
 import { User } from "./user.dto";
 
 export class CreateUserRequest extends PickType(User, [
@@ -7,4 +7,4 @@ export class CreateUserRequest extends PickType(User, [
   "password",
   "tel",
 ] as const) {}
-export class CreateUserResponse extends User {}
+export class CreateUserResponse extends OmitType(User, ["password"] as const) {}
