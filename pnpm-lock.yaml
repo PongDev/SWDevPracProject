@@ -109,7 +109,6 @@ importers:
       '@fontsource/roboto': ^4.5.8
       '@mui/icons-material': ^5.11.16
       '@mui/material': ^5.12.1
-      '@next/font': 13.1.4
       '@types/node': 18.11.18
       '@types/react': 18.0.27
       '@types/react-dom': 18.0.10
@@ -125,7 +124,6 @@ importers:
       '@fontsource/roboto': 4.5.8
       '@mui/icons-material': 5.11.16_qycsgjxrszv36agqsexwq2d5ri
       '@mui/material': 5.12.1_yxvt43keouwjyeqzti2jjtf4mu
-      '@next/font': 13.1.4
       '@types/node': 18.11.18
       '@types/react': 18.0.27
       '@types/react-dom': 18.0.10
@@ -1834,10 +1832,6 @@ packages:
     resolution: {integrity: sha512-z+gnX4Zizatqatc6f4CQrcC9oN8Us3Vrq/OLyc98h7K/eWctrnV91zFZodmJHUjx0cITY8uYM7LXD7IdYkg3kg==}
     dependencies:
       glob: 7.1.7
-    dev: false
-
-  /@next/font/13.1.4:
-    resolution: {integrity: sha512-NfqQPAIFJhssdaZEsP0MADZKN+tc040jOkNKVlDZHtVjJWBJSgbe8UHg3w0S6YuQr7PHc0ACbFeVCBQeG4MEvg==}
     dev: false
 
   /@next/swc-darwin-arm64/13.3.1:
