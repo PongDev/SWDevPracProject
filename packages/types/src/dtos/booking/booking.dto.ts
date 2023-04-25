@@ -52,5 +52,5 @@ export class Booking {
   })
   @IsString()
   @IsNotEmpty()
-  companyId: String;
+  companyId: string;
 }
