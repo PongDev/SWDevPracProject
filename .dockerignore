@@ -1,6 +1,6 @@
 .git
 .github
-postgres
+mongodb
 
 **/node_modules
 **/.env
