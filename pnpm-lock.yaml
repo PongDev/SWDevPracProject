@@ -112,6 +112,7 @@ importers:
       '@types/node': 18.11.18
       '@types/react': 18.0.27
       '@types/react-dom': 18.0.10
+      config: workspace:*
       eslint: 8.32.0
       eslint-config-next: 13.0.0
       next: ^13.1.1
@@ -127,6 +128,7 @@ importers:
       '@types/node': 18.11.18
       '@types/react': 18.0.27
       '@types/react-dom': 18.0.10
+      config: link:../../packages/config
       eslint: 8.32.0
       eslint-config-next: 13.0.0_7uibuqfxkfaozanbtbziikiqje
       next: 13.3.1_biqbaboplfbrettd7655fr4n2y
