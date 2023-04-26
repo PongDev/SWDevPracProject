@@ -1,10 +1,8 @@
-const frontendConfig = require("config").frontendConfig;
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    backendBaseURL: frontendConfig.backendBaseURL,
+    backendBaseURL: process.env.BACKEND_BASE_URL ?? "http://localhost:3001",
   },
 };
 

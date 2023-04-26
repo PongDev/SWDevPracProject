@@ -1,6 +1,8 @@
 import {
   AppBar,
+  Box,
   Button,
+  Container,
   IconButton,
   Menu,
   MenuItem,
@@ -13,6 +15,7 @@ import RegisterButton from "./button/RegisterButton";
 import { useState } from "react";
 import LoginButton from "./button/LoginButton";
 import LogoutButton from "./button/LogoutButton";
+import UserCounter from "./UserCounter";
 
 type Props = {
   isLogin: boolean;
@@ -52,10 +55,15 @@ export function NavBar({ isLogin }: Props) {
             <Link href="/jobs">Jobs</Link>
           </MenuItem>
         </Menu>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Jobs Registration
-        </Typography>
-        {profileMenu}
+        <Container sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography variant="h6" component="div" sx={{ lineBreak: "unset" }}>
+            Jobs Registration
+          </Typography>
+          <Box>
+            <UserCounter />
+          </Box>
+          <Box>{profileMenu}</Box>
+        </Container>
       </Toolbar>
     </AppBar>
   );

@@ -23,6 +23,7 @@ export type BackendConfig = {
   //     debug: boolean;
   //     playground: boolean;
   //   };
+  broadcastDelay: number;
 };
 
 export const loadBackendConfig = (): BackendConfig => ({
@@ -44,4 +45,6 @@ export const loadBackendConfig = (): BackendConfig => ({
     enable: process.env.BACKEND_SWAGGER_ENABLE === "true",
     prefixPath: process.env.BACKEND_SWAGGER_PREFIX_PATH ?? "api",
   },
+  broadcastDelay:
+    parseInt(process.env.BACKEND_BROADCAST_DELAY ?? "", 10) || 1000,
 });
