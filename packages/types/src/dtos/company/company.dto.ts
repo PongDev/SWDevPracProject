@@ -41,17 +41,40 @@ export class Company {
   @IsNotEmpty()
   name: string;
 
+  @ApiProperty({
+    type: () => Address,
+    required: true,
+    description: "Address in street, city, state, zip format",
+  })
   @Type(() => Address)
   address: Address;
 
+  @ApiProperty({
+    type: () => String,
+    required: true,
+    description: "Company website",
+    example: "www.google.com",
+  })
   @IsString()
   @IsNotEmpty()
   website: string;
 
+  @ApiProperty({
+    type: () => String,
+    required: true,
+    description: "Company description",
+    example: "Big tech company",
+  })
   @IsString()
   @IsNotEmpty()
   description: string;
 
+  @ApiProperty({
+    type: () => String,
+    required: true,
+    description: "Company phone number",
+    example: "0957383842",
+  })
   @IsString()
   @IsNotEmpty()
   @IsPhoneNumber("TH")

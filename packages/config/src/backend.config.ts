@@ -2,9 +2,9 @@
 
 export type BackendConfig = {
   port: number;
-  //   bcrypt: {
-  //     salt: number;
-  //   };
+  bcrypt: {
+    hashRound: number;
+  };
   jwt: {
     accessToken: {
       secret: string;
@@ -28,6 +28,9 @@ export type BackendConfig = {
 
 export const loadBackendConfig = (): BackendConfig => ({
   port: parseInt(process.env.BACKEND_PORT ?? "", 10) || 3000,
+  bcrypt: {
+    hashRound: parseInt(process.env.BACKEND_BCRYPT_HASH_ROUNDS ?? "", 10) || 12,
+  },
   jwt: {
     accessToken: {
       secret: process.env.BACKEND_JWT_ACCESS_TOKEN_SECRET ?? "",
