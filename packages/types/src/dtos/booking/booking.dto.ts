@@ -14,7 +14,6 @@ export class Booking {
     type: () => String,
     required: true,
     description: "Booking id",
-    example: "",
   })
   @IsString()
   @IsNotEmpty()
@@ -38,7 +37,6 @@ export class Booking {
     type: () => String,
     required: true,
     description: "User ID",
-    example: "",
   })
   @IsString()
   @IsNotEmpty()
@@ -48,7 +46,6 @@ export class Booking {
     type: () => String,
     required: true,
     description: "Company ID",
-    example: "",
   })
   @IsString()
   @IsNotEmpty()
