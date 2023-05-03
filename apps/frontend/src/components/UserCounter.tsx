@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function UserCounter() {
   const [user, setUser] = useState(0);
-  socket.on("counter", (data: number) => setUser(data));
+  socket?.on("counter", (data: number) => setUser(data));
 
   return (
     <Container>
