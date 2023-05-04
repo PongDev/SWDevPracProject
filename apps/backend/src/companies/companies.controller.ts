@@ -10,6 +10,7 @@ import {
   HttpStatus,
   UseGuards,
   HttpException,
+  UseFilters,
 } from '@nestjs/common';
 import { CompaniesService } from './companies.service';
 import {
@@ -23,21 +24,14 @@ import {
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { Company } from 'types/src/dtos/company/company.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { RecordNotFound } from 'src/common/commonError';
+import { User } from 'src/auth/user.decorator';
+import { AllExceptionsFilter } from 'src/common/exception.filter';
 
 @ApiTags('companies')
+@UseFilters(new AllExceptionsFilter())
 @Controller('companies')
 export class CompaniesController {
   constructor(private readonly companiesService: CompaniesService) {}
-
-  exceptionHandler(e: Error) {
-    if (e instanceof RecordNotFound)
-      throw new HttpException(e.message, HttpStatus.NOT_FOUND);
-    throw new HttpException(
-      'Internal server error',
-      HttpStatus.INTERNAL_SERVER_ERROR,
-    );
-  }
 
   @ApiResponse({
     status: HttpStatus.CREATED,
@@ -51,9 +45,10 @@ export class CompaniesController {
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.CREATED)
   async create(
+    @User() user: JWTPayload,
     @Body() createCompanyDto: CreateCompanyRequest,
   ): Promise<CreateCompanyResponse> {
-    return await this.companiesService.create(createCompanyDto);
+    return await this.companiesService.create(user.userID, createCompanyDto);
   }
 
   @ApiResponse({
@@ -80,7 +75,7 @@ export class CompaniesController {
   })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async findOne(@Param('id') id: string): Promise<GetCompanyByIdResponse> {
+  async findOne(@Param('id') id: number): Promise<GetCompanyByIdResponse> {
     return await this.companiesService.findOne(id);
   }
 
@@ -100,10 +95,15 @@ export class CompaniesController {
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
   async update(
-    @Param('id') id: string,
+    @User() user: JWTPayload,
+    @Param('id') id: number,
     @Body() UpdateCompanyDto: UpdateCompanyRequest,
   ): Promise<UpdateCompanyResponse> {
-    return await this.companiesService.update(id, UpdateCompanyDto);
+    return await this.companiesService.update(
+      user.userID,
+      id,
+      UpdateCompanyDto,
+    );
   }
 
   @ApiResponse({
@@ -121,7 +121,10 @@ export class CompaniesController {
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
-  async remove(@Param('id') id: string): Promise<Company> {
-    return await this.companiesService.remove(id);
+  async remove(
+    @User() user: JWTPayload,
+    @Param('id') id: number,
+  ): Promise<Company> {
+    return await this.companiesService.remove(user.userID, id);
   }
 }
