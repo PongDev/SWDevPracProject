@@ -11,14 +11,20 @@ import { Type } from "class-transformer";
 
 export class Booking {
   @ApiProperty({
-    type: () => String,
+    type: () => Number,
     required: true,
     description: "Booking id",
+    example: 1,
   })
   @IsString()
   @IsNotEmpty()
-  id: string;
+  id: number;
 
+  @ApiProperty({
+    type: () => Date,
+    required: true,
+    description: "Start date for interview session",
+  })
   @IsDate()
   @IsNotEmpty()
   @Type(() => Date)
@@ -26,6 +32,11 @@ export class Booking {
   @MaxDate(new Date("May 13, 2022 23:59:59"))
   startDate: Date;
 
+  @ApiProperty({
+    type: () => Date,
+    required: true,
+    description: "End date for interview session",
+  })
   @IsDate()
   @IsNotEmpty()
   @Type(() => Date)
@@ -34,20 +45,22 @@ export class Booking {
   endDate: Date;
 
   @ApiProperty({
-    type: () => String,
+    type: () => Number,
     required: true,
     description: "User ID",
+    example: 1,
   })
   @IsString()
   @IsNotEmpty()
-  userId: string;
+  userId: number;
 
   @ApiProperty({
-    type: () => String,
+    type: () => Number,
     required: true,
     description: "Company ID",
+    example: 1,
   })
   @IsString()
   @IsNotEmpty()
-  companyId: string;
+  companyId: number;
 }
