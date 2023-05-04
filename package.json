@@ -10,6 +10,7 @@
     "build": "turbo run build",
     "build:frontend": "turbo run build --filter frontend",
     "build:backend": "turbo run build --filter backend",
+    "test": "dotenv -e .env -- turbo run test",
     "db:generate": "turbo run db:generate --filter database",
     "db:migrate:dev": "dotenv -e .env -- pnpm --filter database db:migrate:dev",
     "db:migrate:deploy": "dotenv -e .env -- pnpm --filter database db:migrate:deploy",
