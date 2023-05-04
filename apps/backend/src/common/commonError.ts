@@ -6,19 +6,10 @@ export class InvalidRequestError extends Error {
   }
 }
 
-// Unauthenticated login
-export class UnauthenticationError extends Error {
+export class PermissionError extends Error {
   constructor(msg: string) {
     super(msg);
-    Object.setPrototypeOf(this, UnauthenticationError.prototype);
-  }
-}
-
-// Unauthorized access
-export class MissingPermissionError extends Error {
-  constructor(msg: string) {
-    super(msg);
-    Object.setPrototypeOf(this, MissingPermissionError.prototype);
+    Object.setPrototypeOf(this, PermissionError.prototype);
   }
 }
 
