@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Role, User } from 'database';
+import { InvalidRequestError } from 'src/common/commonError';
 
 @Injectable()
 export class UsersRepository {
@@ -12,13 +13,9 @@ export class UsersRepository {
     password: string;
     email: string;
   }): Promise<User> {
-    try {
-      return await this.prismaService.user.create({
-        data: creatUserData,
-      });
-    } catch (error) {
-      throw error;
-    }
+    return await this.prismaService.user.create({
+      data: creatUserData,
+    });
   }
 
   // async search(data: {
@@ -47,9 +44,14 @@ export class UsersRepository {
   //         throw(error)
   //     }
   // }
-  async findUserByEmail(email: string): Promise<User> {
-    return await this.prismaService.user.findFirst({
+
+  async findUniqueUser(userId?: string, email?: string): Promise<User> {
+    if (!userId && !email) {
+      throw new InvalidRequestError('Must enter userId or email.');
+    }
+    return await this.prismaService.user.findUnique({
       where: {
+        id: userId,
         email: email,
       },
     });

@@ -3,21 +3,21 @@ import {
   Controller,
   HttpCode,
   HttpStatus,
-  Inject,
   Post,
-  Req,
-  Res,
   UseGuards,
 } from '@nestjs/common';
-import { UsersService } from 'src/users/users.service';
-import { CreateUserRequest, CreateUserResponse, logInRequest } from 'types';
+import {
+  CreateUserRequest,
+  CreateUserResponse,
+  JWTToken,
+  LogInRequest,
+} from 'types';
 import { User } from './user.decorator';
 import { AuthService } from './auth.service';
-import { AuthGuard } from '@nestjs/passport';
-import { JwtAuthGuard } from './jwt-auth.guard';
-import { Request, Response } from 'express';
 import { JwtRefreshAuthGuard } from './jwt-refresh-auth.guard';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -26,6 +26,14 @@ export class AuthController {
     throw e;
   }
 
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'The user has been successfully created.',
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Bad request. Please check your input again.',
+  })
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
   async register(
@@ -38,9 +46,17 @@ export class AuthController {
     }
   }
 
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'The user has successfully logged in.',
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Bad request. Please check your input again.',
+  })
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  async logIn(@Body() userData: logInRequest) {
+  async logIn(@Body() userData: LogInRequest): Promise<JWTToken> {
     try {
       return await this.authService.logIn(userData);
     } catch (e) {
@@ -48,21 +64,18 @@ export class AuthController {
     }
   }
 
-  // @Post('logout')
-  // @HttpCode(HttpStatus.OK)
-  // @UseGuards(JwtAuthGuard)
-  // async logOut(@User() user) {
-  //   try {
-  //     return await this.authService.logOut(user.id)
-  //   } catch (e) {
-  //     this.exceptionHandler(e);
-  //   }
-  // }
-
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Token has been refreshed.',
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Unauthorized.',
+  })
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtRefreshAuthGuard)
-  async refresh(@User() user) {
+  async refresh(@User() user): Promise<JWTToken> {
     return await this.authService.generateToken(user.userId);
   }
 }

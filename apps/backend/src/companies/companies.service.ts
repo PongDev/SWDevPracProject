@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCompanyRequest, updateCompanyRequest } from 'types';
+import { CreateCompanyRequest, UpdateCompanyRequest } from 'types';
 import { CompaniesRepository } from './companies.repository';
 import { Company } from 'database';
+import { UnauthenticationError } from 'src/common/commonError';
 
 @Injectable()
 export class CompaniesService {
@@ -18,8 +19,8 @@ export class CompaniesService {
     return await this.companiesRepo.findUnique(id);
   }
 
-  async update(id: string, updateCompanyDto: updateCompanyRequest) {
-    return await this.companiesRepo.update(id, updateCompanyDto);
+  async update(id: string, UpdateCompanyDto: UpdateCompanyRequest) {
+    return await this.companiesRepo.update(id, UpdateCompanyDto);
   }
 
   async remove(id: string) {
