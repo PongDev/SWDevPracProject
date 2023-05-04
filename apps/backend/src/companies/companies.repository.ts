@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Address, Company } from 'database';
-import { updateCompanyRequest } from 'types';
+import { UpdateCompanyRequest } from 'types';
+import { RecordNotFound } from '../common/commonError';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
 @Injectable()
 export class CompaniesRepository {
@@ -24,30 +26,50 @@ export class CompaniesRepository {
   }
 
   async findUnique(companyId: string): Promise<Company> {
-    return await this.prismaService.company.findUnique({
+    const result = await this.prismaService.company.findUnique({
       where: {
         id: companyId,
       },
     });
+    if (!result) {
+      throw new RecordNotFound(`Company id${companyId} doesn't exist.`);
+    }
+    return result;
   }
 
   async update(
     companyId: string,
-    updateCompanyDto: updateCompanyRequest,
+    UpdateCompanyDto: UpdateCompanyRequest,
   ): Promise<Company> {
-    return await this.prismaService.company.update({
-      data: updateCompanyDto,
+    const result = await this.prismaService.company.update({
+      data: UpdateCompanyDto,
       where: {
         id: companyId,
       },
     });
+    if (!result) {
+      throw new RecordNotFound(`Company id${companyId} doesn't exist.`);
+    }
+    return result;
   }
 
   async remove(companyId: string): Promise<Company> {
-    return await this.prismaService.company.delete({
-      where: {
-        id: companyId,
-      },
-    });
+    try {
+      const result = await this.prismaService.company.delete({
+        where: {
+          id: companyId,
+        },
+      });
+      if (!result)
+        throw new RecordNotFound(`Company id${companyId} doesn't exist.`);
+      return result;
+    } catch (error) {
+      if (
+        error instanceof PrismaClientKnownRequestError &&
+        error.code === 'P2025'
+      )
+        throw new RecordNotFound(`Company id${companyId} doesn't exist.`);
+      throw error;
+    }
   }
 }
