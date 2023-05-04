@@ -45,14 +45,17 @@ export class UsersRepository {
   //     }
   // }
 
-  async findUniqueUser(userId?: string, email?: string): Promise<User> {
-    if (!userId && !email) {
+  async findUniqueUser(searchField: {
+    userId?: number;
+    email?: string;
+  }): Promise<User> {
+    if (!searchField.userId && !searchField.email) {
       throw new InvalidRequestError('Must enter userId or email.');
     }
     return await this.prismaService.user.findUnique({
       where: {
-        id: userId,
-        email: email,
+        id: searchField.userId,
+        email: searchField.email,
       },
     });
   }

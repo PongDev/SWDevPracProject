@@ -13,18 +13,18 @@ import { UsersService } from './users.service';
 import {
   CreateUserRequest,
   CreateUserResponse,
+  GetUserByUserIdRequest,
   GetUserByUserIdResponse,
 } from 'types';
 import { User } from 'src/auth/user.decorator';
-import { InvalidRequestError, RecordNotFound } from 'src/common/commonError';
+import { InvalidRequestError } from 'src/common/commonError';
+import { ApiResponse } from '@nestjs/swagger';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   exceptionHandler(e: Error) {
-    if (e instanceof RecordNotFound)
-      throw new HttpException(e.message, HttpStatus.NOT_FOUND);
     if (e instanceof InvalidRequestError)
       throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
     throw new HttpException(
@@ -33,11 +33,22 @@ export class UsersController {
     );
   }
 
-  @Get()
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'The user has been successfully retrieved.',
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Bad request. Please check the id again.',
+  })
+  @Get(':id')
   @HttpCode(HttpStatus.OK)
   async getUserById(
-    @Param('id') userId: string,
+    @Param('id') userId: number,
   ): Promise<GetUserByUserIdResponse> {
-    return await this.usersService.getUserByUserId(userId);
+    const { password, ...result } = await this.usersService.getUserByUserId(
+      userId,
+    );
+    return result;
   }
 }
