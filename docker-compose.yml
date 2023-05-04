@@ -1,14 +1,16 @@
 version: '3'
 
 services:
-  mongodb:
-    image: mongo
-    container_name: mongodb
+  mysql:
+    image: mysql
+    container_name: mysql
     restart: always
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=${DB_USER}
-      - MONGO_INITDB_ROOT_PASSWORD=${DB_PASSWORD}
-    ports:
-      - "${DB_PORT}:27017"
     volumes:
-      - ./mongodb:/data/db
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    ports:
+      - 127.0.0.1:3306:3306
