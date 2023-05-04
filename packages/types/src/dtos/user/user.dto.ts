@@ -5,19 +5,20 @@ import {
   IsEmail,
   IsNotEmpty,
   IsPhoneNumber,
+  IsNumber,
   IsString,
 } from "class-validator";
 
 export class User {
   @ApiProperty({
-    type: () => String,
+    type: () => Number,
     required: true,
     description: "User ID",
-    example: "",
+    example: "1",
   })
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  id: string;
+  id: number;
 
   @ApiProperty({
     type: () => String,
@@ -41,7 +42,7 @@ export class User {
   password: string;
 
   @ApiProperty({
-    type: () => String,
+    type: () => Number,
     required: true,
     description: "User's name",
     example: "John Doe",
@@ -63,8 +64,9 @@ export class User {
 
   @ApiProperty({
     required: true,
-    description: "User's roles",
+    description: "User's role",
+    enum: Role,
   })
-  @IsArray()
-  roles: Role[];
+  @IsString()
+  role: Role;
 }
