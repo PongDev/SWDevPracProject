@@ -3,12 +3,7 @@ import { UsersService } from './users.service';
 import { CreateUserRequest, CreateUserResponse } from 'types';
 import { User } from 'src/auth/user.decorator';
 
-@Controller()
+@Controller('users')
 export class UsersController {
-  constructor(
-    @Inject('UsersService') private readonly usersService: UsersService,
-  ) {}
-
-  @Get()
-  async getUser() {}
+  constructor(private readonly usersService: UsersService) {}
 }
