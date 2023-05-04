@@ -18,12 +18,9 @@ import { JwtAuthGuard } from './jwt-auth.guard';
 import { Request, Response } from 'express';
 import { JwtRefreshAuthGuard } from './jwt-refresh-auth.guard';
 
-@Controller()
+@Controller('auth')
 export class AuthController {
-  constructor(
-    @Inject('UsersService') private readonly usersService: UsersService,
-    @Inject('AuthService') private readonly authService: AuthService,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   exceptionHandler(e: Error) {
     throw e;
@@ -43,45 +40,29 @@ export class AuthController {
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  async logIn(
-    @Res({ passthrough: true }) res: Response,
-    @Body() userData: logInRequest,
-  ) {
+  async logIn(@Body() userData: logInRequest) {
     try {
-      const { responseBody, token } = await this.authService.logIn(userData);
-      res.cookie('access_token', token.accessToken, {
-        httpOnly: true,
-        sameSite: 'strict',
-      });
-      res.cookie('refresh_token', token.refreshToken, {
-        httpOnly: true,
-        sameSite: 'strict',
-      });
-      res.status(HttpStatus.OK).send(responseBody);
+      return await this.authService.logIn(userData);
     } catch (e) {
       this.exceptionHandler(e);
     }
   }
 
-  @Post('logout')
-  @HttpCode(HttpStatus.OK)
-  @UseGuards(JwtAuthGuard)
-  async logOut(@Res({ passthrough: true }) res: Response) {
-    // @User => req.user => call service.logout to clear token
-    try {
-      res.clearCookie('access_token');
-      res.clearCookie('refresh_token');
-      res.status(HttpStatus.OK).send({ message: 'successful' });
-    } catch (e) {
-      this.exceptionHandler(e);
-    }
-  }
+  // @Post('logout')
+  // @HttpCode(HttpStatus.OK)
+  // @UseGuards(JwtAuthGuard)
+  // async logOut(@User() user) {
+  //   try {
+  //     return await this.authService.logOut(user.id)
+  //   } catch (e) {
+  //     this.exceptionHandler(e);
+  //   }
+  // }
 
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtRefreshAuthGuard)
-  async refresh(@User() user, @Res({ passthrough: true }) res: Response) {
-    // set cookie?
+  async refresh(@User() user) {
     return await this.authService.generateToken(user.userId);
   }
 }

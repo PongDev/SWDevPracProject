@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { backendConfig } from 'config';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
 import { CreateUserRequest, JWTPayload, JWTToken, logInRequest } from 'types';
 import * as bcrypt from 'bcrypt';
 
@@ -51,9 +51,9 @@ export class AuthService {
     return { responseBody, token };
   }
 
-  async logOut(userID: number) {
-    // set stored refresh_token for that user to null/expired
-  }
+  // async logOut(userID: number) {
+  // set stored token for that user to null/expired
+  // }
 
   signAccessToken(payload: JWTPayload): string {
     return this.jwtService.sign(payload, this.jwtAccessTokenOptions);
