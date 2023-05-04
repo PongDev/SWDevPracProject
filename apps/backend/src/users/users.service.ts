@@ -27,10 +27,10 @@ export class UsersService {
 
   async getUserByEmail(email: string): Promise<User> {
     // await this.usersRepo.search({email:email},{limit:1})
-    return await this.usersRepo.findUniqueUser(email);
+    return await this.usersRepo.findUniqueUser({ email: email });
   }
 
-  async getUserByUserId(userId: string): Promise<User> {
-    return await this.usersRepo.findUniqueUser(userId);
+  async getUserByUserId(userId: number): Promise<User> {
+    return await this.usersRepo.findUniqueUser({ userId: userId });
   }
 }
