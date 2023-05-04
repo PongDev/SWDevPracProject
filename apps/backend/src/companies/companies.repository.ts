@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Address, Company } from 'database';
+import { Company } from 'database';
 import { UpdateCompanyRequest } from 'types';
 import { RecordNotFound } from '../common/commonError';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
@@ -11,10 +11,13 @@ export class CompaniesRepository {
 
   async create(createCompanyData: {
     name: string;
-    address: Address;
-    tel: string;
+    street: string;
+    city: string;
+    state: string;
+    zip: string;
     website: string;
     description: string;
+    tel: string;
   }): Promise<Company> {
     return await this.prismaService.company.create({
       data: createCompanyData,
@@ -25,7 +28,7 @@ export class CompaniesRepository {
     return await this.prismaService.company.findMany();
   }
 
-  async findUnique(companyId: string): Promise<Company> {
+  async findUnique(companyId: number): Promise<Company> {
     const result = await this.prismaService.company.findUnique({
       where: {
         id: companyId,
@@ -38,7 +41,7 @@ export class CompaniesRepository {
   }
 
   async update(
-    companyId: string,
+    companyId: number,
     UpdateCompanyDto: UpdateCompanyRequest,
   ): Promise<Company> {
     const result = await this.prismaService.company.update({
@@ -53,7 +56,7 @@ export class CompaniesRepository {
     return result;
   }
 
-  async remove(companyId: string): Promise<Company> {
+  async remove(companyId: number): Promise<Company> {
     try {
       const result = await this.prismaService.company.delete({
         where: {
