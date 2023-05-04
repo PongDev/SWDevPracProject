@@ -27,8 +27,7 @@ export class SocketGateway
     this.connectionCounter = 0;
     setInterval(() => {
       this.server.emit('counter', this.connectionCounter);
-    }),
-      backendConfig.broadcastDelay;
+    }, backendConfig.broadcastDelay);
   }
 
   handleConnection(@ConnectedSocket() client: Socket) {
