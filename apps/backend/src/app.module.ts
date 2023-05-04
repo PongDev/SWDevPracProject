@@ -6,9 +6,10 @@ import { AuthModule } from './auth/auth.module';
 import { SocketGateway } from './socket/socket.gateway';
 import { CompaniesModule } from './companies/companies.module';
 import { UsersModule } from './users/users.module';
+import { BookingsModule } from './bookings/bookings.module';
 
 @Module({
-  imports: [AuthModule, CompaniesModule, UsersModule],
+  imports: [AuthModule, CompaniesModule, UsersModule, BookingsModule],
   controllers: [AppController],
   providers: [AppService, PrismaService, SocketGateway],
 })
