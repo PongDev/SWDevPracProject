@@ -5,23 +5,25 @@ import { apiClient } from "@/utility/api";
 
 type Props = {
   setModalOpen: (bool: boolean) => void;
+  setIsLogin: (bool: boolean) => void;
 };
 
-export default function RegistryForm({ setModalOpen }: Props) {
+export default function LoginForm({ setModalOpen, setIsLogin }: Props) {
   const [errorMsg, setErrorMsg] = useState("");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
     try {
       const res = await apiClient?.login({
         email: data.get("email")?.toString() ?? "",
         password: data.get("password")?.toString() ?? "",
       });
+      if (res) {
+        localStorage.setItem("accessToken", res.accessToken);
+        localStorage.setItem("refreshToken", res.refreshToken);
+        setIsLogin(true);
+      }
     } catch (err: any) {
       setErrorMsg(err.response.data.message);
       return;

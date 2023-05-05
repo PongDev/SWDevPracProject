@@ -19,9 +19,10 @@ import UserCounter from "./UserCounter";
 
 type Props = {
   isLogin: boolean;
+  setIsLogin: (bool: boolean) => void;
 };
 
-export function NavBar({ isLogin }: Props) {
+export function NavBar({ isLogin, setIsLogin }: Props) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -32,12 +33,12 @@ export function NavBar({ isLogin }: Props) {
   };
 
   const profileMenu = isLogin ? (
-    <LogoutButton />
+    <LogoutButton setIsLogin={setIsLogin} />
   ) : (
     <>
       <RegisterButton />
       <span style={{ padding: "0.5rem" }} />
-      <LoginButton />
+      <LoginButton setIsLogin={setIsLogin} />
     </>
   );
 

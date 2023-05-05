@@ -1,7 +1,15 @@
 import { Button } from "@mui/material";
 
-export default function LogoutButton() {
-  const handleLogout = () => {};
+type Props = {
+  setIsLogin: (bool: boolean) => void;
+};
+
+export default function LogoutButton({ setIsLogin }: Props) {
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    setIsLogin(false);
+  };
 
   return (
     <>

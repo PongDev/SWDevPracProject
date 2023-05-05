@@ -3,7 +3,11 @@ import { Box, Button, Modal } from "@mui/material";
 import { modalStyle } from "../styles";
 import LoginForm from "../form/LoginForm";
 
-export default function LoginButton() {
+type Props = {
+  setIsLogin: (bool: boolean) => void;
+};
+
+export default function LoginButton({ setIsLogin }: Props) {
   const [modalOpen, setModalOpen] = useState(false);
   const handleModalOpen = () => setModalOpen(true);
   const handleModalClose = () => setModalOpen(false);
@@ -15,7 +19,7 @@ export default function LoginButton() {
       </Button>
       <Modal open={modalOpen} onClose={handleModalClose}>
         <Box sx={modalStyle}>
-          <LoginForm setModalOpen={setModalOpen} />
+          <LoginForm setModalOpen={setModalOpen} setIsLogin={setIsLogin} />
         </Box>
       </Modal>
     </>

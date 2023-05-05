@@ -17,11 +17,11 @@ export class APIClient {
   }
 
   public async register(req: CreateUserRequest): Promise<CreateUserResponse> {
-    return await axios.post(this.baseURL + "auth/register", req);
+    return (await axios.post(this.baseURL + "auth/register", req)).data;
   }
 
   public async login(req: LogInRequest): Promise<JWTToken> {
-    return await axios.post(this.baseURL + "auth/login", req);
+    return (await axios.post(this.baseURL + "auth/login", req)).data;
   }
 }
 
