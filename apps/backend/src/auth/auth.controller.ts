@@ -30,6 +30,10 @@ export class AuthController {
     description: 'The user has been successfully created.',
   })
   @ApiResponse({
+    status: HttpStatus.CONFLICT,
+    description: 'Data already exists in another user.',
+  })
+  @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
     description: 'Bad request. Please check your input again.',
   })
