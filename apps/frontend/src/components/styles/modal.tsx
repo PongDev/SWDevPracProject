@@ -7,7 +7,7 @@ export const modalStyle = {
   position: "absolute",
   width: "40rem",
   maxWidth: "90vw",
-  overflow: "scroll",
+  overflow: "auto",
   borderRadius: "0.5rem",
   bgcolor: theme.palette.background.paper,
   padding: "1.5rem",
