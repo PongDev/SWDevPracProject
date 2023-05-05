@@ -4,13 +4,16 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
 import { JwtRefreshTokenStrategy } from './jwt-refresh.strategy';
+import { UsersModule } from 'src/users/users.module';
+import { AuthController } from './auth.controller';
 
 describe('AuthService', () => {
   let service: AuthService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [PassportModule, JwtModule.register({})],
+      imports: [PassportModule, UsersModule, JwtModule.register({})],
+      controllers: [AuthController],
       providers: [AuthService, JwtStrategy, JwtRefreshTokenStrategy],
     }).compile();
 
