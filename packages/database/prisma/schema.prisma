@@ -37,7 +37,7 @@ model Company {
   website     String
   description String
   tel         String
-  Booking     Booking[]
+  bookings     Booking[]
 }
 
 enum Role {

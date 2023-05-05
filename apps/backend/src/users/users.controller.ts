@@ -8,9 +8,10 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { GetUserByUserIdResponse } from 'types';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AllExceptionsFilter } from 'src/common/exception.filter';
 
+@ApiTags('users')
 @Controller('users')
 @UseFilters(AllExceptionsFilter)
 export class UsersController {

@@ -29,7 +29,10 @@ export class BookingsService {
     return await this.bookingsRepo.findByUserId(userId);
   }
 
-  async update(bookingId: number, editBookingDto: EditBookingRequest) {
+  async update(
+    bookingId: number,
+    editBookingDto: EditBookingRequest,
+  ): Promise<Booking> {
     this.validateSessionRange({
       startDate: editBookingDto.startDate,
       endDate: editBookingDto.endDate,
@@ -37,7 +40,7 @@ export class BookingsService {
     return await this.bookingsRepo.update(bookingId, editBookingDto);
   }
 
-  async remove(bookingId: number) {
+  async remove(bookingId: number): Promise<Booking> {
     return await this.bookingsRepo.remove(bookingId);
   }
 

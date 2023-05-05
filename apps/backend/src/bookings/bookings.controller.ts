@@ -18,7 +18,7 @@ import { AllExceptionsFilter } from 'src/common/exception.filter';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { UsersService } from 'src/users/users.service';
 import { InvalidRequestError, PermissionError } from 'src/common/commonError';
-import { Role } from 'database';
+import { Booking, Role } from 'database';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @UseFilters(AllExceptionsFilter)
@@ -60,7 +60,7 @@ export class BookingsController {
   async create(
     @User() user: JWTPayload,
     @Body() createBookingDto: CreateBookingRequest,
-  ) {
+  ): Promise<Booking> {
     if (user.userID != createBookingDto.userId)
       throw new InvalidRequestError('You can register only with your id.');
     if ((await this.bookingsService.findByUserId(user.userId)).length >= 3)
@@ -81,7 +81,7 @@ export class BookingsController {
   @Get()
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
-  async findAll(@User() user: JWTPayload) {
+  async findAll(@User() user: JWTPayload): Promise<Booking[]> {
     if (await this.checkAdminAuthorization(user.userID)) {
       return await this.bookingsService.findAll();
     }
@@ -103,7 +103,10 @@ export class BookingsController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  async findOne(@User() user: JWTPayload, @Param('id') bookingId: number) {
+  async findOne(
+    @User() user: JWTPayload,
+    @Param('id') bookingId: number,
+  ): Promise<Booking> {
     if (
       (await this.checkAdminAuthorization(user.userID)) ||
       (await this.checkOwnerAuthorization(user.userID, bookingId))
@@ -134,7 +137,7 @@ export class BookingsController {
     @User() user: JWTPayload,
     @Param('id') bookingId: number,
     @Body() editBookingDto: EditBookingRequest,
-  ) {
+  ): Promise<Booking> {
     if (
       (await this.checkAdminAuthorization(user.userID)) ||
       (await this.checkOwnerAuthorization(user.userID, bookingId))
@@ -157,7 +160,10 @@ export class BookingsController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  async remove(@User() user: JWTPayload, @Param('id') bookingId: number) {
+  async remove(
+    @User() user: JWTPayload,
+    @Param('id') bookingId: number,
+  ): Promise<Booking> {
     if (
       (await this.checkAdminAuthorization(user.userID)) ||
       (await this.checkOwnerAuthorization(user.userID, bookingId))
