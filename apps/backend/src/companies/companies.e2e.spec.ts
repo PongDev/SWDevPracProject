@@ -186,7 +186,7 @@ describe('CompaniesModule (e2e)', () => {
     });
   });
 
-  describe('remove company', () => {
+  describe('update company', () => {
     describe('unauthorized access', () => {
       it('should return 401', () => {
         return request(app.getHttpServer())
