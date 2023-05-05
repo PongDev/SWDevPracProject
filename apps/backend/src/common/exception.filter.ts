@@ -3,6 +3,8 @@ import {
   Catch,
   ArgumentsHost,
   HttpStatus,
+  BadRequestException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import {
   FailedRelationConstraintError,
@@ -18,6 +20,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
   // constructor(private readonly httpAdapterHost: HttpAdapterHost) { }
 
   catch(exception: Error, host: ArgumentsHost): void {
+    console.log(exception);
     const ctx = host.switchToHttp();
     const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
@@ -32,13 +35,20 @@ export class AllExceptionsFilter implements ExceptionFilter {
         ? HttpStatus.CONFLICT
         : exception instanceof FailedRelationConstraintError
         ? HttpStatus.BAD_REQUEST
+        : exception instanceof BadRequestException
+        ? HttpStatus.BAD_REQUEST
+        : exception instanceof UnauthorizedException
+        ? HttpStatus.UNAUTHORIZED
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
     response.status(httpStatus).json({
       statusCode: httpStatus,
       timestamp: new Date().toISOString(),
       path: request.url,
-      message: exception.message,
+      message:
+        exception instanceof BadRequestException
+          ? JSON.parse(JSON.stringify(exception.getResponse())).message
+          : exception.message,
     });
   }
 }
