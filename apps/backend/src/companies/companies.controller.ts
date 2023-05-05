@@ -27,7 +27,7 @@ import { User } from 'src/auth/user.decorator';
 import { AllExceptionsFilter } from 'src/common/exception.filter';
 
 @ApiTags('companies')
-@UseFilters(new AllExceptionsFilter())
+@UseFilters(AllExceptionsFilter)
 @Controller('companies')
 export class CompaniesController {
   constructor(private readonly companiesService: CompaniesService) {}

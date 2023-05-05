@@ -2,27 +2,19 @@ import {
   Controller,
   Get,
   HttpCode,
-  HttpException,
   HttpStatus,
   Param,
+  UseFilters,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { GetUserByUserIdResponse } from 'types';
-import { InvalidRequestError } from 'src/common/commonError';
 import { ApiResponse } from '@nestjs/swagger';
+import { AllExceptionsFilter } from 'src/common/exception.filter';
 
 @Controller('users')
+@UseFilters(AllExceptionsFilter)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
-  exceptionHandler(e: Error) {
-    if (e instanceof InvalidRequestError)
-      throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
-    throw new HttpException(
-      'Internal server error',
-      HttpStatus.INTERNAL_SERVER_ERROR,
-    );
-  }
 
   @ApiResponse({
     status: HttpStatus.OK,

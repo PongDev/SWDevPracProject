@@ -4,6 +4,7 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  UseFilters,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -16,15 +17,13 @@ import { User } from './user.decorator';
 import { AuthService } from './auth.service';
 import { JwtRefreshAuthGuard } from './jwt-refresh-auth.guard';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AllExceptionsFilter } from 'src/common/exception.filter';
 
 @ApiTags('auth')
 @Controller('auth')
+@UseFilters(AllExceptionsFilter)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-
-  exceptionHandler(e: Error) {
-    throw e;
-  }
 
   @ApiResponse({
     status: HttpStatus.CREATED,
@@ -39,11 +38,7 @@ export class AuthController {
   async register(
     @Body() userData: CreateUserRequest,
   ): Promise<CreateUserResponse> {
-    try {
-      return await this.authService.register(userData);
-    } catch (e: any) {
-      this.exceptionHandler(e);
-    }
+    return await this.authService.register(userData);
   }
 
   @ApiResponse({
@@ -57,11 +52,7 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async logIn(@Body() userData: LogInRequest): Promise<JWTToken> {
-    try {
-      return await this.authService.logIn(userData);
-    } catch (e: any) {
-      this.exceptionHandler(e);
-    }
+    return await this.authService.logIn(userData);
   }
 
   @ApiResponse({

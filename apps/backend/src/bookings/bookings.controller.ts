@@ -21,7 +21,7 @@ import { InvalidRequestError, PermissionError } from 'src/common/commonError';
 import { Role } from 'database';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
-@UseFilters(new AllExceptionsFilter())
+@UseFilters(AllExceptionsFilter)
 @ApiTags('bookings')
 @Controller('bookings')
 export class BookingsController {

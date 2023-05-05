@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { User } from 'database';
 import { InvalidRequestError } from 'src/common/commonError';
+import { RecordAlreadyExists } from 'src/common/commonError';
 
 @Injectable()
 export class UsersRepository {
@@ -13,9 +14,16 @@ export class UsersRepository {
     password: string;
     email: string;
   }): Promise<User> {
-    return await this.prismaService.user.create({
-      data: creatUserData,
-    });
+    try {
+      return await this.prismaService.user.create({
+        data: creatUserData,
+      });
+    } catch (e) {
+      if (e.code === 'P2002') {
+        throw new RecordAlreadyExists('Email already exists.');
+      }
+      throw e;
+    }
   }
 
   // async search(data: {

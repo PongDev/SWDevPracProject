@@ -46,7 +46,6 @@
     ]
   },
   "dependencies": {
-    "@nestjs/mapped-types": "*",
     "dotenv-cli": "^7.1.0"
   },
   "commitlint": {
