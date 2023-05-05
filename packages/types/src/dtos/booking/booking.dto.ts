@@ -1,11 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import {
-  IsString,
-  IsNotEmpty,
-  IsDate,
-  MinDate,
-  MaxDate,
-} from "class-validator";
+import { IsNotEmpty, IsDate, MinDate, MaxDate, IsInt } from "class-validator";
 import { Type } from "class-transformer";
 
 export class Booking {
@@ -15,7 +9,7 @@ export class Booking {
     description: "Booking id",
     example: 1,
   })
-  @IsString()
+  @IsInt()
   @IsNotEmpty()
   id: number;
 
@@ -49,7 +43,7 @@ export class Booking {
     description: "User ID",
     example: 1,
   })
-  @IsString()
+  @IsInt()
   @IsNotEmpty()
   userId: number;
 
@@ -59,7 +53,7 @@ export class Booking {
     description: "Company ID",
     example: 1,
   })
-  @IsString()
+  @IsInt()
   @IsNotEmpty()
   companyId: number;
 }
