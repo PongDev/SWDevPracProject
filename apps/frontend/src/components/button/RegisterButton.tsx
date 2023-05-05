@@ -15,7 +15,7 @@ export default function RegisterButton() {
       </Button>
       <Modal open={modalOpen} onClose={handleModalClose}>
         <Box sx={modalStyle}>
-          <RegisterForm />
+          <RegisterForm setModalOpen={setModalOpen} />
         </Box>
       </Modal>
     </>

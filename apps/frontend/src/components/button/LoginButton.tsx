@@ -15,7 +15,7 @@ export default function LoginButton() {
       </Button>
       <Modal open={modalOpen} onClose={handleModalClose}>
         <Box sx={modalStyle}>
-          <LoginForm />
+          <LoginForm setModalOpen={setModalOpen} />
         </Box>
       </Modal>
     </>
