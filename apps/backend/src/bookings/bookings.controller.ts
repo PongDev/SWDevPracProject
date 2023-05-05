@@ -34,11 +34,11 @@ export class BookingsController {
     userId: number,
     bookingId: number,
   ): Promise<boolean> {
-    return (await this.bookingsService.findUnique(bookingId)).userId != userId;
+    return (await this.bookingsService.findUnique(bookingId)).userId == userId;
   }
 
   async checkAdminAuthorization(userId: number): Promise<boolean> {
-    return (await this.usersService.getUserByUserId(userId)).role != Role.ADMIN;
+    return (await this.usersService.getUserByUserId(userId)).role == Role.ADMIN;
   }
 
   @ApiResponse({
@@ -63,7 +63,7 @@ export class BookingsController {
   ) {
     if (user.userID != createBookingDto.userId)
       throw new InvalidRequestError('You can register only with your id.');
-    if ((await this.bookingsService.findByUserId(user.userId)).length < 3)
+    if ((await this.bookingsService.findByUserId(user.userId)).length >= 3)
       throw new InvalidRequestError(
         'User are allowed to book up to only 3 interview sessions.',
       );

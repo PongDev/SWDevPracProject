@@ -2,7 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Booking } from 'database';
 import { EditBookingRequest } from 'types';
-import { InvalidRequestError, RecordNotFound } from 'src/common/commonError';
+import {
+  FailedRelationConstraintError,
+  InvalidRequestError,
+  RecordNotFound,
+} from 'src/common/commonError';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
 @Injectable()
@@ -23,9 +27,20 @@ export class BookingsRepository {
         'Please enter valid dates for an interview session.',
       );
     }
-    return await this.prismaService.booking.create({
-      data: createBookingData,
-    });
+    try {
+      return await this.prismaService.booking.create({
+        data: createBookingData,
+      });
+    } catch (error) {
+      if (
+        error instanceof PrismaClientKnownRequestError &&
+        error.code === 'P2003'
+      )
+        throw new FailedRelationConstraintError(
+          `Invalid user ID or company ID`,
+        );
+      throw error;
+    }
   }
 
   async find(): Promise<Booking[]> {
