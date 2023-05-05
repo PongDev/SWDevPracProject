@@ -10,6 +10,7 @@ import {
 import {
   CreateUserRequest,
   CreateUserResponse,
+  JWTPayload,
   JWTToken,
   LogInRequest,
 } from 'types';
@@ -70,7 +71,7 @@ export class AuthController {
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtRefreshAuthGuard)
-  async refresh(@User() user): Promise<JWTToken> {
-    return await this.authService.generateToken(user.userId);
+  async refresh(@User() user: JWTPayload): Promise<JWTToken> {
+    return await this.authService.generateToken({ userID: user.userId });
   }
 }
