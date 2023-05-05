@@ -1,10 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {
-  CreateUserRequest,
-  CreateUserResponse,
-  GetUserByUserIdRequest,
-  GetUserByUserIdResponse,
-} from 'types';
+import { CreateUserRequest, CreateUserResponse } from 'types';
 import { UsersRepository } from './users.repository';
 import { User } from 'database';
 import * as bcrypt from 'bcrypt';

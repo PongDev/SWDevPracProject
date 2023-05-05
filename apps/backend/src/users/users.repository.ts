@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Role, User } from 'database';
+import { User } from 'database';
 import { InvalidRequestError } from 'src/common/commonError';
 
 @Injectable()

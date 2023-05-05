@@ -1,7 +1,6 @@
 import {
   BadRequestException,
   Injectable,
-  Res,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';

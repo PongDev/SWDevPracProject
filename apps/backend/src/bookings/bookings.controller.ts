@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
   UseFilters,
-  UnauthorizedException,
   UseGuards,
   HttpCode,
   HttpStatus,

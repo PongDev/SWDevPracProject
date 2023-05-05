@@ -1,22 +1,13 @@
 import {
-  Body,
   Controller,
   Get,
   HttpCode,
   HttpException,
   HttpStatus,
-  Inject,
   Param,
-  Post,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import {
-  CreateUserRequest,
-  CreateUserResponse,
-  GetUserByUserIdRequest,
-  GetUserByUserIdResponse,
-} from 'types';
-import { User } from 'src/auth/user.decorator';
+import { GetUserByUserIdResponse } from 'types';
 import { InvalidRequestError } from 'src/common/commonError';
 import { ApiResponse } from '@nestjs/swagger';
 
@@ -46,6 +37,7 @@ export class UsersController {
   async getUserById(
     @Param('id') userId: number,
   ): Promise<GetUserByUserIdResponse> {
+    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     const { password, ...result } = await this.usersService.getUserByUserId(
       userId,
     );

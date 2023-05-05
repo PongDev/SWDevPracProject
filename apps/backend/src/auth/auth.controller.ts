@@ -41,7 +41,7 @@ export class AuthController {
   ): Promise<CreateUserResponse> {
     try {
       return await this.authService.register(userData);
-    } catch (e) {
+    } catch (e: any) {
       this.exceptionHandler(e);
     }
   }
@@ -59,7 +59,7 @@ export class AuthController {
   async logIn(@Body() userData: LogInRequest): Promise<JWTToken> {
     try {
       return await this.authService.logIn(userData);
-    } catch (e) {
+    } catch (e: any) {
       this.exceptionHandler(e);
     }
   }

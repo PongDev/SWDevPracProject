@@ -1,4 +1,4 @@
-import { OmitType, PartialType } from "@nestjs/swagger";
+import { PartialType } from "@nestjs/swagger";
 import { Booking } from "./booking.dto";
 import { CreateBookingRequest } from "./createBooking.dto";
 

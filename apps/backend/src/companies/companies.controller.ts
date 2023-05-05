@@ -9,7 +9,6 @@ import {
   HttpCode,
   HttpStatus,
   UseGuards,
-  HttpException,
   UseFilters,
 } from '@nestjs/common';
 import { CompaniesService } from './companies.service';

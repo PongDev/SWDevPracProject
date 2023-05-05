@@ -1,4 +1,4 @@
-import { ApiProperty, PickType } from "@nestjs/swagger";
+import { ApiProperty } from "@nestjs/swagger";
 import {
   IsString,
   IsNotEmpty,
@@ -6,7 +6,6 @@ import {
   MinDate,
   MaxDate,
 } from "class-validator";
-import { User } from "../user/user.dto";
 import { Type } from "class-transformer";
 
 export class Booking {

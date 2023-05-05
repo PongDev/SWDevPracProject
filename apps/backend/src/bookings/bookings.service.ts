@@ -1,11 +1,6 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateBookingRequest, EditBookingRequest } from 'types';
 import { BookingsRepository } from './bookings.repository';
-import { UsersService } from 'src/users/users.service';
 @Injectable()
 export class BookingsService {
   constructor(private readonly bookingsRepo: BookingsRepository) {}
