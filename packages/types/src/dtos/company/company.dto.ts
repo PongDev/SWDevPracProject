@@ -1,10 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import {
-  IsNotEmpty,
-  IsPhoneNumber,
-  IsPostalCode,
-  IsString,
-} from "class-validator";
+import { IsNotEmpty, IsPhoneNumber, IsString, Length } from "class-validator";
 
 export class Company {
   @ApiProperty({
@@ -90,7 +85,7 @@ export class Company {
     required: true,
     description: "Company's zip code",
   })
-  @IsPostalCode()
+  @Length(5, 5)
   @IsNotEmpty()
   zip: string;
 }
