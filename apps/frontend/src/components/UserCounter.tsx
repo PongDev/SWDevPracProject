@@ -1,6 +1,6 @@
 import { socket } from "@/utility/socket";
 import { Container, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function UserCounter() {
   const [user, setUser] = useState(0);
