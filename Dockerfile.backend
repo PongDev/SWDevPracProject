@@ -54,4 +54,4 @@ COPY --from=builder --chown=user:container /app/packages/types/package.json /app
 COPY --from=builder --chown=user:container /app/packages/types/node_modules /app/packages/types/node_modules
 COPY --from=builder --chown=user:container /app/packages/types/dist /app/packages/types/dist
 
-CMD pnpm --filter backend start:prod
+CMD pnpm --filter database db:migrate:deploy && pnpm --filter backend start:prod
