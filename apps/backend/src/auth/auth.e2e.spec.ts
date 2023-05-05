@@ -1,4 +1,4 @@
-import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { INestApplication, ValidationPipe, HttpStatus } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import * as bcrypt from 'bcrypt';
 import { Role, User } from 'database';
@@ -63,11 +63,7 @@ describe('UsersController', () => {
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
-      // imports: [PassportModule, UsersModule, JwtModule.register({})],
       imports: [AuthModule],
-      // imports: [AppModule],
-      // controllers: [AppController],
-      // providers: [AppService],
     })
       .overrideProvider(PrismaService)
       .useValue({})
@@ -82,9 +78,6 @@ describe('UsersController', () => {
       }),
     );
     await app.init();
-
-    console.log('----------------------------');
-    console.log(app);
   });
 
   afterAll(async () => {
@@ -97,10 +90,16 @@ describe('UsersController', () => {
 
   describe('register user', () => {
     describe('missing field', () => {
-      return request(app.getHttpServer())
-        .post('/auth/login')
-        .send({ email: 'john@gmail.com', password: '33333', tel: '0888888888' })
-        .expect(500);
+      it('should return 400', () => {
+        return request(app.getHttpServer())
+          .post('/auth/login')
+          .send({
+            email: 'john@gmail.com',
+            password: '33333',
+            tel: '0888888888',
+          })
+          .expect(HttpStatus.BAD_REQUEST);
+      });
     });
   });
 });

@@ -12,12 +12,8 @@ export class UsersService {
 
   async register(req: CreateUserRequest): Promise<CreateUserResponse> {
     const { password, ...data } = req;
-    try {
-      const hashedPassword = await bcrypt.hash(password, this.hashRound);
-      return await this.usersRepo.create({ password: hashedPassword, ...data });
-    } catch (error) {
-      throw error;
-    }
+    const hashedPassword = await bcrypt.hash(password, this.hashRound);
+    return await this.usersRepo.create({ password: hashedPassword, ...data });
   }
 
   async getUserByEmail(email: string): Promise<User> {

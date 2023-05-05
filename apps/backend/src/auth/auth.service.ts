@@ -1,13 +1,10 @@
-import {
-  BadRequestException,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { backendConfig } from 'config';
 import { UsersService } from '../users/users.service';
 import { CreateUserRequest, JWTPayload, JWTToken, LogInRequest } from 'types';
 import * as bcrypt from 'bcrypt';
+import { InvalidRequestError, PermissionError } from 'src/common/commonError';
 
 @Injectable()
 export class AuthService {
@@ -32,11 +29,11 @@ export class AuthService {
   async logIn(userData: LogInRequest): Promise<JWTToken> {
     const user = await this.usersService.getUserByEmail(userData.email);
     if (!user) {
-      throw new BadRequestException('Incorrect email. Please try again.');
+      throw new InvalidRequestError('Incorrect email. Please try again.');
     }
     const validUser = await bcrypt.compare(userData.password, user.password);
     if (!validUser) {
-      throw new UnauthorizedException('Incorrect password.');
+      throw new PermissionError('Incorrect password.');
     }
     return await this.generateToken({ userID: user.id });
   }
