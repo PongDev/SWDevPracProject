@@ -17,7 +17,7 @@ import {
 import { User } from './user.decorator';
 import { AuthService } from './auth.service';
 import { JwtRefreshAuthGuard } from './jwt-refresh-auth.guard';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AllExceptionsFilter } from 'src/common/exception.filter';
 
 @ApiTags('auth')
@@ -68,6 +68,7 @@ export class AuthController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'Unauthorized.',
   })
+  @ApiBearerAuth()
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtRefreshAuthGuard)

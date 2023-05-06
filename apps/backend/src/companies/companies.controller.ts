@@ -20,7 +20,7 @@ import {
   UpdateCompanyRequest,
   UpdateCompanyResponse,
 } from 'types';
-import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { Company } from 'types/src/dtos/company/company.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { User } from 'src/auth/user.decorator';
@@ -40,6 +40,7 @@ export class CompaniesController {
     status: HttpStatus.BAD_REQUEST,
     description: 'Bad request. Please check your input again.',
   })
+  @ApiBearerAuth()
   @Post()
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.CREATED)
@@ -90,6 +91,7 @@ export class CompaniesController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'You are not authorized to access this resource.',
   })
+  @ApiBearerAuth()
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
@@ -117,6 +119,7 @@ export class CompaniesController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'You are not authorized to access this resource.',
   })
+  @ApiBearerAuth()
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)

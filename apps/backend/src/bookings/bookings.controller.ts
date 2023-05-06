@@ -15,7 +15,7 @@ import { BookingsService } from './bookings.service';
 import { CreateBookingRequest, EditBookingRequest, JWTPayload } from 'types';
 import { User } from 'src/auth/user.decorator';
 import { AllExceptionsFilter } from 'src/common/exception.filter';
-import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { UsersService } from 'src/users/users.service';
 import { InvalidRequestError, PermissionError } from 'src/common/commonError';
 import { Booking, Role } from 'database';
@@ -54,6 +54,7 @@ export class BookingsController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'You are not allowed to access this resource.',
   })
+  @ApiBearerAuth()
   @Post()
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.CREATED)
@@ -78,6 +79,7 @@ export class BookingsController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'You are not allowed to access this resource.',
   })
+  @ApiBearerAuth()
   @Get()
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
@@ -100,6 +102,7 @@ export class BookingsController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'You are not allowed to access this resource.',
   })
+  @ApiBearerAuth()
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
   @Get(':id')
@@ -130,6 +133,7 @@ export class BookingsController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'You are not allowed to access this resource.',
   })
+  @ApiBearerAuth()
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
@@ -157,6 +161,7 @@ export class BookingsController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'You are not allowed to access this resource.',
   })
+  @ApiBearerAuth()
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
